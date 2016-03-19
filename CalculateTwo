@@ -1,0 +1,270 @@
+package pkg;
+import java.util.Random;
+import java.util.Scanner;
+class Calculate {
+	public String AddAndSub(int range,int Mi){//定义有加减法时的各种情况
+		Random random =new Random();
+		String output="";
+		int temp1=2+random.nextInt(7);
+		for(int i=0;i<temp1;i++)              //控制运算数个数
+		{
+			int m=random.nextInt(2);          //控制加减号的随机输出
+			int n=random.nextInt(2);          //控制有无分数
+			int l=random.nextInt(10);         //控制有负数的情况下包含无负数的输出
+			int first=random.nextInt(range)+1;
+			int second=random.nextInt(range)+2;
+			char f=' ';                       //随机输出加减法
+			if(m==0) f='+';
+			if(m==1) f='-';
+			if(n==0)                          //没有分数
+			{				
+				if(Mi==1)                     //有负数
+				{
+					if(l>=4)                  //有负数
+					{
+						first=-1*(random.nextInt(range)+1);
+						output+="("+first+")";
+					}
+					if(l<4)                   //不含负数运算
+						output+=first;
+					if(i!=temp1-1){output+=f;}//配合输出运算符
+				}
+				if(Mi==0)                     //无负数
+				{
+					output+=first;
+				    if(i!=temp1-1){output+=f;}
+				}
+			}
+			if(n==1)                          //有分数
+			{
+				if(first>=second){            //化简
+					for(int a=second;a>0;a--)
+					{
+						if(first%a==0&&second%a==0)
+						{
+							first=first/a;
+							second=second/a;
+						}
+					}
+				}
+				else
+				{
+					for(int a=first;a>0;a--)
+					{
+						if(first%a==0&&second%a==0)
+						{
+							first=first/a;
+							second=second/a;
+						}
+					}
+				}
+				if(Mi==1)                   //有负数
+				{
+					if(l>=4){
+						first=-1*(random.nextInt(range)+1);
+						output+="( ("+first+")"+"/"+second+" )";}
+					if(l<4)                //有负数的情况下也会产生无负数的情况
+						output+=first+"/"+second;
+				}
+				if(Mi==0)
+					output+=first+"/"+second;
+				if(i!=temp1-1)
+					output+=f;
+			}
+		}
+		output+="=";
+		return output;
+	}
+	public String MultiAndDiv(int range,int D,int Mi){   //定义有乘除法时的各种情况
+		Random random =new Random();
+		int temp1=2+random.nextInt(8);
+		int l=random.nextInt(10);                        //控制有负数的情况下包含无负数的输出
+		String output="";
+		for(int i=0;i<temp1;i++)                         //控制运算数个数
+		{
+			int first=random.nextInt(range)+1;
+			int second=random.nextInt(range)+1;
+			char f=' ';
+			int temp2=random.nextInt(2);
+			if(temp2==0) f='+';
+			if(temp2==1) f='-';
+			if(D==0)                                     //没有余数
+			{
+				for(int c=0;;)
+				{
+					if(first%second!=0||second%first!=0) //判断是否能整除，否重新生成，并直到能整除为止
+					{
+						first=random.nextInt(range)+1;
+						second=random.nextInt(range)+1;
+					}
+					else
+						break;
+				}
+				if(Mi==1)                               //有负数
+				{
+					if(l>=4)
+					{
+						first=-1*(random.nextInt(range)+1);
+						output+="("+first+")";
+					}
+					if(l<4)                             //有负数的情况下也会产生无负数的情况
+						output+=first;
+				}
+				if(Mi==0)
+					output+=first;
+				if(i!=temp1-1)
+				{
+					int temp3=random.nextInt(2);
+					if(temp3==0)
+						output+="*"+second+f;
+					if(temp3==1)
+						output+="/"+second+f;
+				}
+			}
+		
+			if(D==1)                                   //有余数
+			{
+				output+=first;
+				if(i!=temp1-1)
+				{
+					int temp4=random.nextInt(4);
+					if(temp4==0)
+						output+="*";
+					if(temp4==1)
+						output+="/";
+					if(temp4==2)
+						output+="+";
+					if(temp4==3)
+						output+="-";
+				}
+			}
+		}
+		output+="=";
+		return output;
+	}
+	public String Bracket(String E){                        //多项式加括号
+		Random random =new Random();
+		int t=E.indexOf("+")+1;
+		E=E.substring(0,t)+'('+E.substring(t+1,E.length());
+		E=E.substring(0,t+4)+')'+E.substring(t+5,E.length());
+		return E;
+	}
+	
+}
+public class CalculateTwo extends Calculate{         //继承Calculate
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner in=new Scanner(System.in);
+		Random random =new Random();
+		int D=0;
+		Calculate C;C=new Calculate();
+		for(int j=0;;)                              //输出需要用户定义的要求
+		{
+			System.out.println("Please input the number's range of this calculation:");
+			int Range=in.nextInt();
+			System.out.println("Please input the number of this calculation:");
+			int SumNum=in.nextInt();
+			System.out.println("Please input the lines of this calculation:");
+			int m=in.nextInt();
+			System.out.println("Is there multiplication and division in this calculation?Yes,prress 1   No,press 0:");
+			int Mu=in.nextInt();
+			if(Mu==1){
+				System.out.println("Is there reminder in division?Yes,prress 1   No,press 0:");
+					D=in.nextInt();}
+			System.out.println("Is there minus in this calculation?Yes,prress 1   No,press 0:");
+			int Mi=in.nextInt();
+			System.out.println("Is there parenthese in this calculation?Yes,prress 1   No,press 0:");
+			int B=in.nextInt();
+			
+			int l=random.nextInt(10);                       //控制有负数的情况下有无负数的输出
+			String []Expre=new String[SumNum+1];
+			for(int i=0;i<SumNum;i++)
+			{
+				if(Mu==0)                                  //无乘除法
+				{
+					boolean s=false;                       //查询是否有重复
+					if(i==0)
+						Expre[i]=C.AddAndSub(Range, Mi);
+					else
+					{
+						Expre[i]=C.AddAndSub(Range, Mi);
+						for(int d=0;;)                     //如果有重复则继续生成，直到无重复为止
+						{
+							int c;
+							for(c=0;c<i;c++)
+							{
+								s=Expre[i].equals(Expre[c]);
+								if(s==true) break;
+							}
+							if(c<=i-1)                     //如果循环跳出时的c值小于i-1说明有重复
+							{
+								Expre[i]=C.AddAndSub(Range, Mi);
+							}
+							else
+								break;
+						}
+					}
+				}
+				if(Mu==1)                                   //有乘除
+				{
+					boolean s=false;                        //查询是否有重复
+					if(i==0)
+					{
+						if(l>=4)
+							Expre[i]=C.MultiAndDiv(Range,D,Mi);
+						if(l<4)
+							Expre[i]=C.AddAndSub(Range, Mi);
+					}
+					else
+					{
+						if(l>=4)
+							Expre[i]=C.MultiAndDiv(Range,D,Mi);
+						if(l<4)
+							Expre[i]=C.AddAndSub(Range, Mi);
+						for(int d=0;;)                    //如果有重复则继续生成，直到无重复为止
+						{
+							int c;
+							for(c=0;c<i;c++)
+							{
+								s=Expre[i].equals(Expre[c]);
+								if(s==true) break;
+							}
+							if(c<=i-1)                        //如果循环跳出时的c值小于i-1说明有重复
+							{
+								if(l>=4)
+									Expre[i]=C.MultiAndDiv(Range,D,Mi);
+								if(l<4)
+									Expre[i]=C.AddAndSub(Range, Mi);
+							}
+							else
+								break;
+						}
+					}
+				}
+			}
+			if(B==1)                               //有括号
+			{
+				for(int i=0;i<SumNum;i++)
+				{
+					if(Expre[i].length()>8)
+						C.Bracket(Expre[i]);
+				}
+			}
+			for(int i=0;i<SumNum;i++)              //输出字符串数组
+			{
+				System.out.print(Expre[i]+"   ");
+				if((i+1)%m==0)
+					System.out.println();	
+			}
+			System.out.println();	
+			
+			System.out.print("Try again press:1  Quit press:0");
+			int g=in.nextInt();
+			if(g==1)
+				continue;
+			if(g==0)
+				break;
+		}
+	}
+}
