@@ -1,0 +1,275 @@
+import java.util.*; 
+import java.util.regex.*; 
+import java.lang.*; 
+ 
+public class CalculateThree {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("请输入题目的数量：");
+		Scanner sc1 = new Scanner(System.in);
+		int quantity = sc1.nextInt();
+		System.out.println("请输入每行输出几道题目：");
+		Scanner sc2 = new Scanner(System.in);
+		int num = sc2.nextInt();
+		int size=quantity;
+		String[]suanshizu=new String[size];
+		equation(quantity,suanshizu);
+		output(suanshizu,num,quantity);
+	}
+	static void equation(int quantity,String a[])//产生算式函数
+
+	{
+		System.out.println("请输入数值范围的最大值：");
+		Scanner sc1 = new Scanner(System.in);
+		int max = sc1.nextInt();
+		System.out.println("请输入数值范围的最小值：");
+		Scanner sc2 = new Scanner(System.in);
+		int min = sc2.nextInt();
+		System.out.println("请选择是否有负数（是：1   否：0）");
+		Scanner sc3 = new Scanner(System.in);
+		int x = sc3.nextInt();
+		int iffu=x;
+		System.out.println("请选择是否有分数（是：1   否：0）");
+		Scanner sc4 = new Scanner(System.in);
+		int y = sc4.nextInt();
+		int iffen=y;
+		System.out.println("请选择是否有乘除法（是：1   否：0）");
+		Scanner sc5 = new Scanner(System.in);
+		int z = sc5.nextInt();
+		int ifcheng=z;
+		System.out.println("请选择除法是否有余数（是：1   否：0）");
+		Scanner sc6 = new Scanner(System.in);
+		int ifyu = sc6.nextInt();
+		for(int i=0;i<quantity;)
+		{
+			String suanshi;
+			int c=1+(int)(Math.random()*7);
+			suanshi=randomNumber(max,min,iffu,iffen);
+			for(int t=0;t<c;t++)
+			{
+				if(x==1)
+					iffu=(int)(Math.random()*2);
+				if(y==1)
+					iffen=(int)(Math.random()*2);
+				if(z==1)
+					ifcheng=(int)(Math.random()*2);
+				int n0=(int)(Math.random()*2);
+				if(n0==0)
+				{
+					suanshi=suanshi+randoSymbol(ifcheng,max,ifyu);  //
+					suanshi=suanshi+randomNumber(max,min,iffu,iffen);
+				}
+				if(n0==1)
+				{
+					suanshi=randoSymbol(ifcheng,max,ifyu)+suanshi;
+					suanshi=randomNumber(max,min,iffu,iffen)+suanshi;
+				}
+				int n=(int)(Math.random()*3);
+				if(n==5)
+				{suanshi='('+suanshi+')';}
+				}
+			i=i+ti(a,suanshi,i);
+		}
+	}
+	static String randomNumber(int max,int min,int iffu,int iffen)//产生随机数
+	{
+		String number;
+		if(iffen==0)
+			{
+			int a=(int)(Math.random()*max);
+			number=String.valueOf(a);
+			}
+		else
+		{
+			int a=(int)(Math.random()*max);
+			int b=(int)(Math.random()*max);
+			if(b<a)
+			{
+			int t=b;
+			b=a;
+			a=t;
+			}
+		for(int i=a;i>1;i--)
+		{
+			if(a%i==0&&b%i==0)
+			{
+				a=a/i;
+				b=b/i;
+			}
+		}
+			number='('+String.valueOf(a)+'/'+String.valueOf(b)+')';
+		}
+		if(iffu==1)
+			number='('+"-"+number+')';
+		return number;
+	}
+	static String randoSymbol(int ifcheng,int max,int ifyu)//产生随机运算符
+	{
+		String symbol;
+		int a=1+(int)(Math.random()*4);
+		symbol=String.valueOf(a);
+		if(ifcheng==0)
+		{
+			if(a==1||a==2)
+			{
+				char s='+';
+				symbol=String.valueOf(s);
+			}
+			if(a==3||a==4)
+			{
+				char s='-';
+				symbol=String.valueOf(s);
+			}
+		}
+		if(ifcheng==1)
+		{
+			if(a==1)
+			{
+				char s='+';
+				symbol=String.valueOf(s);
+			}
+			if(a==2)
+			{
+				char s='-';
+				symbol=String.valueOf(s);
+			}
+			if(a==3)
+			{
+				char s='*';
+				symbol=String.valueOf(s);
+			}
+			if(a==4)
+			{
+				int number1,number2;
+				char s='/';
+				symbol=String.valueOf(s);
+				if(ifyu==0)
+				{for(;;)
+				{
+					number1=1+(int)(Math.random()*max);
+					number2=2+(int)(Math.random()*max);
+					if(number1%number2==0)
+						break;
+				}
+				String num1=String.valueOf(number1);
+				String num2=String.valueOf(number2);
+				symbol=randoSymbol(0,max,ifyu)+num1+symbol+num2+randoSymbol(0,max,ifyu);
+				}
+			}
+		}
+		return symbol;
+	}
+	static void output(String a[],int num,int quantity)
+	{
+		int t=0,f=0;
+		for(int i=0;i<quantity;i++)
+		{
+			if((i+1)%num==0)
+				{System.out.println(a[i]+'=');
+				Scanner sc1 = new Scanner(System.in);
+				int answer = sc1.nextInt();
+				System.out.println("正确结果："+jiandanyunsuan(a[i]));//输出正确结果
+				if(answer-jiandanyunsuan(a[i])==0)//累计对错
+					t=t+1;
+				}
+			else
+				{System.out.print(a[i]+jiandanyunsuan(a[i])+'='+'\t'+'\t');
+				Scanner sc1 = new Scanner(System.in);
+				int answer = sc1.nextInt();
+				System.out.println("正确结果："+jiandanyunsuan(a[i]));
+				if(answer-jiandanyunsuan(a[i])==0)
+					t=t+1;
+				}
+			}
+		System.out.println("正确的个数是："+t+"错误的个数是："+(quantity-t));
+
+	}
+	static int ti(String a[],String v,int i)
+	{
+		
+		int j;
+		if(i!=0)
+		{
+			for(j=0;j<i;j++)
+				{
+					if(a[j]==v)
+					{
+						break;
+					}
+				}
+			if(j==i)
+			{
+				a[i]=v;
+				return 1;
+				}
+			else
+				return 0;
+			
+		}
+		else
+		{
+			a[0]=v;
+			return 1;
+		}
+	}
+	static double jiandanyunsuan(String str) 
+	{
+		String[] operater =new String[20]; 
+		String[] number = new String[20];  
+		Stack countStack1 = new Stack(); 
+		Stack countStack2 = new Stack(); 
+		int result =0; 
+		number = str.split("\\/|\\*|\\+|\\-"); //分离出数字
+		operater= str.split("\\d+"); //分离出符号
+			for(int i = 0; i<number.length;i++)
+			{ 
+				countStack1.push(number[i]); 
+				if(i!=number.length-1){ 
+					countStack1.push(operater[i+1]); 
+					} 
+			} //将数字和符号按一定顺序压入栈中
+			while(!countStack1.isEmpty()) 
+				countStack2.push(countStack1.pop()); //为了按照从左到右的顺序计算算式
+			String op; 
+			while(!countStack2.isEmpty())
+			{ 
+				result=0; 
+				op = countStack2.pop().toString(); 
+				if(op.equals("*"))//乘法运算
+				{ 
+					result=Integer.parseInt(countStack1.pop().toString())*Integer.parseInt(countStack2.pop().toString()); 
+					countStack1.push(result); 
+					continue; 
+				} 
+				if(op.equals("/"))//除法运算
+				{ 
+					result=Integer.parseInt(countStack1.pop().toString())/Integer.parseInt(countStack2.pop().toString()); 
+					countStack1.push(result); 
+					continue; 
+				} 
+				countStack1.push(op); //如果涉及乘除运算直接压入栈中
+			} 
+			while(!countStack1.isEmpty()) 
+				countStack2.push(countStack1.pop()); //为了运算顺序
+			while(!countStack2.isEmpty())
+			{
+				result=0; 
+				op = countStack2.pop().toString(); 
+				if(op.equals("+")){ //运算加法
+					result=Integer.parseInt(countStack1.pop().toString())+Integer.parseInt(countStack2.pop().toString()); 
+					countStack1.push(result); 
+					continue; 
+					} 
+				if(op.equals("-"))//运算减法
+				{
+					result=Integer.parseInt(countStack1.pop().toString())-Integer.parseInt(countStack2.pop().toString()); 
+					countStack1.push(result); 
+					continue; 
+				} 
+				countStack1.push(op); 
+				} 
+			return result;  //返回结果
+			} 
+
+}
