@@ -1,0 +1,216 @@
+package ceshi;
+
+import java.util.Scanner;
+
+public class ceshi {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("请输入题目的数量：");
+		Scanner sc1 = new Scanner(System.in);
+		int quantity = sc1.nextInt();
+		System.out.println("请输入产生数字的最大值：");
+		int max = sc1.nextInt();
+		System.out.println("请输入是否有负数：");
+		int iffu = sc1.nextInt();
+		System.out.println("请输入是否有乘除法：");
+		int ifcheng= sc1.nextInt();
+		equation(quantity,max,iffu,ifcheng);
+	}
+	static void equation(int quantity,int max,int iffu,int ifcheng)
+	{
+		int t=0;
+		for(int i=0;i<quantity;i++)
+		{
+			String result;
+			int numberlength=2+(int)(Math.random()*3);
+			int number1[]=new int[numberlength];
+			int number2[][]=new int[2][numberlength];
+			int symbol[][]=new int[2][numberlength-1];
+			for(int j=0;j<numberlength;j++)
+			{
+				int num=randomNumber(max,iffu);
+				number1[j]=num;
+				number2[0][j]=num;
+				number2[1][j]=1;
+			}
+			for(int j=0;j<numberlength-1;j++)
+			{
+				int sym=randomSymbol(ifcheng);
+				symbol[0][j]=sym;
+				if(sym==1||sym==2)
+				{
+					symbol[1][j]=1;
+				}
+				if(sym==3||sym==4)
+				{
+					symbol[1][j]=2;
+				}
+			}
+			int kuo=-1;
+			if(numberlength>2)
+			{
+				kuo=(int)(Math.random()*(numberlength-2));
+				symbol[1][kuo]=3;
+			}
+			for(int j=0;j<numberlength-1;j++)
+			{
+				if(symbol[1][j]==3)
+				{
+					yunsuan(number2,symbol,numberlength,j);
+				}
+					
+			}
+			for(int j=0;j<numberlength-1;j++)
+			{
+				if(symbol[1][j]==2)
+				{
+					yunsuan(number2,symbol,numberlength,j);
+				}
+			}
+			for(int j=0;j<numberlength-1;j++)
+			{
+				if(symbol[1][j]==1)
+				{
+					yunsuan(number2,symbol,numberlength,j);
+				}
+			}
+			if(number2[1][0]!=1)
+			{
+				int a=number2[0][0],b;
+				if(number2[0][0]>number2[1][0])
+					a=number2[1][0];
+				for(int j=a;j>1;j--)
+				{
+					if(number2[0][0]%j==0&&number2[1][0]%j==0)
+					{
+						number2[0][0]=number2[0][0]/j;
+						number2[1][0]=number2[1][0]/j;
+						break;
+					}
+				}
+				result=String.valueOf(number2[0][0])+'/'+String.valueOf(number2[1][0]);
+			}
+			else
+				result=String.valueOf(number2[0][0]);
+			output(number1,symbol,kuo);
+			Scanner sc1 = new Scanner(System.in);//
+			String re = sc1.next();//
+			if(re.equals(result))
+				t=t+1;
+			System.out.println("正确结果为："+result);
+			}
+		System.out.println("正确题的数目："+t+"错误题的数目："+(quantity-t));
+		}
+
+	static void output(int number[],int symbol[][],int j)
+	{
+		String a=String.valueOf(number[0]);
+		if(j==0)
+			a='('+a;
+		for(int i=0;i<number.length-1;i++)
+		{
+			a=a+String.valueOf(fu(symbol[0][i]));
+			if(i+1==j)
+				a=a+'(';
+			a=a+String.valueOf(number[i+1]);
+			if(i+1==j+1)
+				a=a+')';
+		}
+		System.out.println(a+'=');
+	}
+	static char fu(int a)
+	{
+		char c=' ';
+		if(a==1)
+			c='+';
+		if(a==2)
+			c='-';
+		if(a==3)
+			c='*';
+		if(a==4)
+			c='/';
+		return c;
+		
+	}
+	static void yunsuan(int number[][],int symbol[][],int l,int p)
+	{
+		int a=p,b=p+1;
+		for(int i=p;i>=0;i--)
+		{
+			if(number[1][i]!=0)
+			{
+				a=i;
+				break;
+			}
+		}
+		for(int q=p+1;q<l;q++)
+		{
+			if(number[1][q]!=0)
+			{
+				b=q;
+				break;
+			}
+		}
+		if(symbol[0][p]==2)
+		{
+			if(number[0][a]*number[1][b]-number[1][a]*number[0][b]>=0)
+			{
+				number[0][a]=number[0][a]*number[1][b]-number[1][a]*number[0][b];
+				number[1][a]=number[1][a]*number[1][b];
+				number[0][b]=0;
+				number[1][b]=0;
+			}
+			else
+			{
+				symbol[0][p]=1;
+			}
+		}
+		if(symbol[0][p]==1)
+		{
+			number[0][a]=number[0][a]*number[1][b]+number[1][a]*number[0][b];
+			number[1][a]=number[1][a]*number[1][b];
+			number[0][b]=0;
+			number[1][b]=0;
+		}
+		
+		if(symbol[0][p]==3)
+		{
+			number[0][a]=number[0][a]*number[0][b];
+			number[1][a]=number[1][a]*number[1][b];
+			number[0][b]=0;
+			number[1][b]=0;
+		}
+		if(symbol[0][p]==4)
+		{
+			number[0][a]=number[0][a]*number[1][b];
+			number[1][a]=number[1][a]*number[0][b];
+			number[0][b]=0;
+			number[1][b]=0;
+		}
+		
+	}
+	static int randomNumber(int max,int iffu)//产生随机数
+	{
+		int number=1+(int)(Math.random()*max);
+		if(iffu==1)
+		{
+			number=0-number;
+		}
+		return number;
+	}
+	static int randomSymbol(int ifcheng)//产生随机符号
+	{
+		int symbol;
+		if(ifcheng==1)
+			{
+				symbol=1+(int)(Math.random()*4);
+			}
+		else
+		{
+			symbol=1+(int)(Math.random()*2);
+		}
+		return symbol;
+	}
+
+}
