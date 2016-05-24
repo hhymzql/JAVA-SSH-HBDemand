@@ -1,0 +1,60 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Finding {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+	
+		for(int m=0;;)                           //按照用户需求无限循环
+		{
+			int judge=0;
+			Scanner in=new Scanner(System.in);
+			int n; 
+	        System.out.println("请输入帖子的个数：");
+	        n=in.nextInt();
+	     
+	        System.out.println("请输入ID(序号为整数)：");
+	        int ID[]=new int [n];
+	        try                              //捕捉输入错误
+	        {
+	        	for(int i=0;i<n;i++)
+	            {
+	        		ID[i]=in.nextInt();
+	            }
+		     }
+	        catch(InputMismatchException e)
+	        {
+	        	System.out.println("输入不合法！请输入整数！");
+	        	judge=1;
+	        }
+	     
+	        int shuiwang=ID[0];int temp=0;    //从第一个ID开始，第一个即为水王
+	        for(int i=0;i<n-1;i++)
+	        {                                 //当此时水王与下一个ID相同时，计数器temp+1
+	        	if(shuiwang==ID[i+1])
+	        	{
+	        		temp++;
+	        	}
+	        	else 
+	        	{                            //当此时水王与下一个ID不相同时，计数器temp-1
+	        		temp--;
+	        	}
+	        	if(temp<0)
+	        	{
+	        		shuiwang=ID[i+1];         //当temp小于0时说明出现次数少，换下一个ID为临时水王
+	        	}
+	        }
+	        if(judge!=1)
+	        	System.out.println("水王是："+shuiwang);
+	        
+	        System.out.println("继续寻找水王请按任意键，退出请按q：");
+	        String s=in.next();
+	        if(s.equals("q"))
+	        	System.exit(0);
+	        else
+	        	continue;	
+	        in.close();
+		}
+	}
+}
