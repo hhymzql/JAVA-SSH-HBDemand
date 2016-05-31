@@ -1,0 +1,71 @@
+package lowest_price_1;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Lowest_price {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		for(;;)                              //按照用户需求无限循环
+		{
+			int num=0,judge=0;double price=0;
+			Scanner in=new Scanner(System.in);
+	        System.out.println("请输入要买书的个数：");
+	        
+	        try                              //捕捉输入错误
+	        {
+	        	num=in.nextInt();
+		     }
+	        catch(InputMismatchException e)
+	        {
+	        	System.out.println("输入不合法！请输入整数！");
+	        	judge=1;
+	        }
+	        int temp=num/5;                  //计算总价时，五本不同的书最总价格最低
+	        if(num%10==1)                    //购买总数每十本，有规律
+	        {
+	        	price=temp*5*8*0.75+8;
+	        }
+	        else if(num%10==2)
+	        {
+	        	price=temp*5*8*0.75+8*2*0.95;
+	        }
+	        else if(num%10==3)
+	        {
+	        	price=temp*5*8*0.75+8*3*0.9;
+	        }else if(num%10==4)
+	        {
+	        	price=temp*5*8*0.75+8*4*0.8;
+	        }else if(num%10==5)
+	        {
+	        	price=temp*5*8*0.75;
+	        }else if(num%10==6)
+	        {
+	        	price=temp*5*8*0.75+8;
+	        }else if(num%10==7)
+	        {
+	        	price=temp*5*8*0.75+8*2*0.95;
+	        }else if(num%10==8)
+	        {
+	        	price=temp*4*8*0.8+8*4*0.8;    //8本及余数为8本的4,4购买最合适
+	        }else if(num%10==9)
+	        {
+	        	price=temp*5*8*0.75+8*4*0.8;
+	        }else if(num%10==0)
+	        {
+	        	price=num*8*0.75;
+	        }
+	        if(judge!=1)
+	        	System.out.println("最低价格是："+price);
+	        
+	        System.out.print("继续输入请按任意键，退出请按q：");
+	        String s=in.next();
+	        if(s.equals("q"))
+	        	System.exit(0);
+	        else
+	        	continue;	
+	        in.close();
+		}
+	}
+}
