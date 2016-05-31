@@ -1,0 +1,86 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Finding_2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+	
+		for(;;)                             //按照用户需求无限循环
+		{
+			int judge=0;
+			Scanner in=new Scanner(System.in);
+			int n; 
+	        System.out.println("请输入帖子的个数：");
+	        n=in.nextInt();
+	     
+	        System.out.println("请输入ID(序号为正整数)：");
+	        int ID[]=new int [n];
+	        try                              //捕捉输入错误
+	        {
+	        	for(int i=0;i<n;i++)
+	            {
+	        		ID[i]=in.nextInt();
+	            }
+		     }
+	        catch(InputMismatchException e)
+	        {
+	        	System.out.println("输入不合法！请输入整数！");
+	        	judge=1;
+	        }
+	        int shuiwang[]=new int [3];
+	        int temp[]=new int[3];                    //三个计数器，三个水王            
+	        temp[0]=temp[1]=temp[2]=0;
+	        shuiwang[0]=shuiwang[1]=shuiwang[2]=-1;   //初始化计数器和三个水王ID             
+	        for(int i=0;i<n;i++)
+	        {                                     
+	        	if(temp[0]==0)                        //如果temp为0，则水王换值为当前ID，计数器各加1
+	            {
+	        		temp[0]++;
+	        		shuiwang[0]=ID[i];
+	            }
+	            else if(temp[1]==0)
+	            {
+	            	temp[1]++;
+	            	shuiwang[1]=ID[i];
+	            }
+	            else if(temp[2]==0)
+	            {
+	            	temp[2]++;
+	            	shuiwang[2]=ID[i];
+	            }
+	            else if(ID[i]==shuiwang[0])        //当此时某水王与下一个ID相同时，计数器temp+1
+	            {
+	            	temp[0]++;
+	            }
+	            else if(ID[i]==shuiwang[1])
+	            {
+	            	temp[1]++;
+	            }
+	            else if(ID[i]==shuiwang[2])
+	            {
+	            	temp[2]++;
+	            }
+	            else                              //如果当前水王ID与当前ID都不同，则三个计数器都减一，直到temp为0
+	            {
+	            	temp[0]--;
+	            	temp[1]--;
+	                temp[2]--;
+	            }
+	         }
+	        if(judge!=1)                          //如果没有发生输入错误，则找水王
+	        {
+	        	System.out.println("水王是：");
+	        	for(int i=0;i<3;i++)
+	        		System.out.println(shuiwang[i]);
+	        }
+	        System.out.println("继续寻找水王请按任意键，退出请按q：");
+	        String s=in.next();
+	        if(s.equals("q"))
+	        	System.exit(0);
+	        else
+	        	continue;	
+	        in.close();
+		}
+	}
+}
