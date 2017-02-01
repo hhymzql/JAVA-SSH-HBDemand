@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>HBDemand_collection</display-name>
+  <servlet>
+    <description></description>
+    <display-name>Techservlet1</display-name>
+    <servlet-name>Techservlet1</servlet-name>
+    <servlet-class>pkg.Techservlet1</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Techservlet1</servlet-name>
+    <url-pattern>/Techservlet1</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Techservlet2</display-name>
+    <servlet-name>Techservlet2</servlet-name>
+    <servlet-class>pkg.Techservlet2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Techservlet2</servlet-name>
+    <url-pattern>/Techservlet2</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Techservlet3</display-name>
+    <servlet-name>Techservlet3</servlet-name>
+    <servlet-class>pkg.Techservlet3</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Techservlet3</servlet-name>
+    <url-pattern>/Techservlet3</url-pattern>
+  </servlet-mapping>
+</web-app>
